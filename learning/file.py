@@ -1,0 +1,13 @@
+f=open("file","r")
+print(f.read())
+f.close()
+with open("file","r") as t:
+    t1=t.read()
+    t2=t.readline()
+    t3=t.readlines()
+    # print(t1)
+    # print()
+    # # print(t2)
+    # # print()
+    print(t3)
+    # print()

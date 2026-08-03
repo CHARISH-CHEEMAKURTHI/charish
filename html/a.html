@@ -1,0 +1,367 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fakely University</title>
+  <meta name="description" content="A demo college website with dummy links for homework/showcase." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%231c4ed8'/%3E%3Ctext x='50' y='60' font-size='56' text-anchor='middle' fill='white' font-family='Arial, Helvetica, sans-serif'%3EFU%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root{
+      --bg: #0b1020; /* deep navy */
+      --panel: #0f1530; /* slightly lighter */
+      --card: #121a3a;
+      --muted: #94a3b8; /* slate-400 */
+      --text: #e5e7eb; /* gray-200 */
+      --brand: #4f46e5; /* indigo-600 */
+      --brand-2: #22d3ee; /* cyan-400 */
+      --accent: #10b981; /* emerald-500 */
+      --warning: #f59e0b; /* amber-500 */
+      --radius: 18px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--text);
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(79,70,229,.2), transparent 60%),
+                  radial-gradient(800px 600px at 0% 10%, rgba(34,211,238,.12), transparent 55%),
+                  var(--bg);
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      letter-spacing:.1px;
+    }
+    a{color:inherit;text-decoration:none}
+    .container{max-width:1100px; margin:0 auto; padding:0 20px}
+    .btn{display:inline-block; padding:.8rem 1.1rem; border-radius:999px; font-weight:600; border:1px solid transparent}
+    .btn.primary{background:linear-gradient(90deg, var(--brand), var(--brand-2)); color:white}
+    .btn.ghost{border-color:rgba(255,255,255,.2); color:var(--text); backdrop-filter: blur(6px)}
+    .btn:hover{transform: translateY(-1px); box-shadow:var(--shadow)}
+
+    /* Header */
+    header.topbar{font-size:.9rem; background: rgba(255,255,255,.04); border-bottom:1px solid rgba(255,255,255,.08)}
+    header.topbar .container{display:flex; align-items:center; justify-content:space-between; padding:.4rem 20px}
+    header.topbar .links a{opacity:.8; margin-left:16px}
+
+    nav{
+      position:sticky; top:0; z-index:30;
+      background: rgba(15,21,48,.75);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    nav .container{display:flex; align-items:center; justify-content:space-between; padding: .9rem 20px}
+    .logo{display:flex; align-items:center; gap:.6rem; font-weight:800; letter-spacing:.3px}
+    .logo-badge{width:34px;height:34px; border-radius:10px; display:grid; place-items:center; font-weight:900; background:linear-gradient(135deg,var(--brand),var(--brand-2));}
+    .logo span{font-size:1.05rem}
+
+    .nav-links{display:flex; align-items:center; gap:18px}
+    .nav-links a{opacity:.85}
+
+    /* Mobile menu */
+    #menu-toggle{display:none}
+    .hamburger{display:none; cursor:pointer; padding:6px 10px; border-radius:10px; border:1px solid rgba(255,255,255,.12)}
+    @media (max-width: 840px){
+      .nav-links{display:none}
+      .hamburger{display:block}
+      #menu-toggle:checked ~ .nav-links{display:flex; position:absolute; left:0; right:0; top:60px; background:var(--panel); padding:14px 20px; flex-direction:column; gap:12px; border-bottom:1px solid rgba(255,255,255,.08)}
+    }
+
+    /* Hero */
+    .hero{padding: 70px 0 40px; position:relative}
+    .hero .grid{display:grid; grid-template-columns: 1.2fr .8fr; gap:28px}
+    .hero h1{font-size: clamp(1.9rem, 3.5vw, 3rem); line-height:1.2; margin:.2rem 0 .8rem}
+    .hero p{color:var(--muted)}
+    .badge{display:inline-flex; align-items:center; gap:.6rem; padding:.3rem .65rem; border-radius:999px; font-size:.85rem; background:rgba(34,211,238,.12); border:1px solid rgba(34,211,238,.25)}
+    .hero .card{background:linear-gradient(180deg, rgba(79,70,229,.18), rgba(79,70,229,.06)); padding:18px; border-radius:var(--radius); border:1px solid rgba(255,255,255,.12)}
+    .hero .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:16px}
+    .stats{display:grid; grid-template-columns: repeat(3,1fr); gap:12px; margin-top:18px}
+    .stat{background:var(--card); border:1px solid rgba(255,255,255,.1); border-radius:16px; padding:14px; text-align:center}
+    .stat .n{font-size:1.4rem; font-weight:800}
+    .stat .l{font-size:.8rem; color:var(--muted)}
+    .hero-img{border-radius:var(--radius); border:1px solid rgba(255,255,255,.1); overflow:hidden}
+    .hero-img img{display:block; width:100%; height:100%; object-fit:cover}
+    @media (max-width: 900px){.hero .grid{grid-template-columns: 1fr}}
+
+    /* Sections */
+    section{padding: 48px 0}
+    .section-head{display:flex; align-items:end; justify-content:space-between; gap:20px; margin-bottom:16px}
+    .section-head h2{margin:0; font-size:1.6rem}
+    .section-head p{margin:0; color:var(--muted)}
+
+    /* Cards */
+    .cards{display:grid; grid-template-columns: repeat(3, 1fr); gap:14px}
+    .card{background:var(--card); border:1px solid rgba(255,255,255,.1); border-radius:var(--radius); padding:16px}
+    .card h3{margin:.1rem 0 .4rem; font-size:1.1rem}
+    .card p{color:var(--muted); margin:0}
+    @media (max-width: 900px){.cards{grid-template-columns: 1fr}}
+
+    /* Steps */
+    .steps{display:grid; grid-template-columns: repeat(3,1fr); gap:14px}
+    .step{background:linear-gradient(180deg, rgba(16,185,129,.15), rgba(16,185,129,.05)); border:1px solid rgba(16,185,129,.25); border-radius:var(--radius); padding:16px}
+    .kicker{font-size:.8rem; color:var(--muted); text-transform:uppercase; letter-spacing:.15em}
+
+    /* Gallery */
+    .gallery{display:grid; grid-template-columns: repeat(3, 1fr); gap:10px}
+    .gallery img{width:100%; height:220px; object-fit:cover; border-radius:14px; border:1px solid rgba(255,255,255,.1)}
+    @media (max-width: 900px){.gallery{grid-template-columns: 1fr}}
+
+    /* Table */
+    table{width:100%; border-collapse: collapse; background:var(--card); border-radius:14px; overflow:hidden}
+    th, td{padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.08)}
+    th{text-align:left; font-weight:700; background:rgba(255,255,255,.04)}
+
+    /* Footer */
+    footer{background:var(--panel); border-top:1px solid rgba(255,255,255,.08)}
+    .footer-grid{display:grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap:20px}
+    .foot-col a{display:block; margin:.25rem 0; opacity:.85}
+    .copyright{border-top:1px solid rgba(255,255,255,.08); padding:14px 0; color:var(--muted); font-size:.9rem; margin-top:18px}
+    @media (max-width: 900px){.footer-grid{grid-template-columns:1fr}}
+
+    /* Utilities */
+    .sr-only{position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); border:0}
+  </style>
+</head>
+<body>
+  <!-- Topbar -->
+  <header class="topbar" aria-label="Top bar">
+    <div class="container">
+      <div>🎓 Welcome to <strong>Fakely University</strong></div>
+      <div class="links" role="navigation" aria-label="utility">
+        <a href="#" aria-disabled="true">Alumni</a>
+        <a href="#" aria-disabled="true">Parents</a>
+        <a href="#" aria-disabled="true">Give</a>
+        <a href="#" aria-disabled="true">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navbar -->
+  <nav aria-label="Main navigation">
+    <div class="container">
+      <a class="logo" href="#home">
+        <div class="logo-badge" aria-hidden="true">FU</div>
+        <span>Fakely University</span>
+      </a>
+      <label for="menu-toggle" class="hamburger" aria-label="Toggle navigation">☰</label>
+      <input type="checkbox" id="menu-toggle" aria-hidden="true" />
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#programs">Programs</a>
+        <a href="#admissions">Admissions</a>
+        <a href="#campus">Campus Life</a>
+        <a href="#news">News & Events</a>
+        <a href="#footer">More</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero container" id="home">
+    <div class="grid">
+      <div>
+        <span class="badge">Top 1% (Totally Real) • Since 1899*</span>
+        <h1>Where curiosity meets opportunity.</h1>
+        <p>Fakely University is a pretend place for demos and homework. Explore our imaginary programs, apply through our non-existent portal, and tour our pixel‑perfect campus.</p>
+        <div class="actions">
+          <a class="btn primary" href="#admissions">Apply Now</a>
+          <a class="btn ghost" href="#programs">Browse Programs</a>
+        </div>
+        <div class="stats" role="list" aria-label="Quick stats">
+          <div class="stat" role="listitem"><div class="n">18:1</div><div class="l">Student–Faculty Ratio*</div></div>
+          <div class="stat" role="listitem"><div class="n">150+</div><div class="l">Clubs & Orgs*</div></div>
+          <div class="stat" role="listitem"><div class="n">95%</div><div class="l">Grad Success*</div></div>
+        </div>
+      </div>
+      <div class="hero-img" aria-hidden="true">
+        <img src="https://picsum.photos/800/520?random=1" alt="Students walking across a modern campus courtyard" />
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <div class="section-head">
+        <h2>About Fakely</h2>
+        <p>Mission • Values • History*</p>
+      </div>
+      <div class="cards">
+        <article class="card">
+          <h3>Our Mission</h3>
+          <p>Empower learners to think boldly, question deeply, and build cool things—purely for the sake of this assignment.</p>
+        </article>
+        <article class="card">
+          <h3>Our Values</h3>
+          <p>Integrity, curiosity, collaboration, and clean semantic HTML.</p>
+        </article>
+        <article class="card">
+          <h3>Our History</h3>
+          <p>Founded in 1899* by pioneers of lorem ipsum, Fakely has led the world in placeholder education.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programs -->
+  <section id="programs">
+    <div class="container">
+      <div class="section-head">
+        <h2>Academic Programs</h2>
+        <p>Undergraduate • Graduate • Online*</p>
+      </div>
+      <div class="cards" role="list">
+        <article class="card" role="listitem">
+          <h3>Computer Science (B.S.)</h3>
+          <p>Learn algorithms, data structures, and how to name your variables better than <em>thing</em> and <em>stuff</em>.</p>
+          <p><a href="#" aria-disabled="true">Program page</a></p>
+        </article>
+        <article class="card" role="listitem">
+          <h3>Business Administration (B.B.A.)</h3>
+          <p>From idea to IPO—simulate strategy, marketing, and making slides that impress.</p>
+          <p><a href="#" aria-disabled="true">Program page</a></p>
+        </article>
+        <article class="card" role="listitem">
+          <h3>Design & Media (B.Des.)</h3>
+          <p>Typography, motion, and storytelling. Because vibes matter.</p>
+          <p><a href="#" aria-disabled="true">Program page</a></p>
+        </article>
+      </div>
+
+      <h3 class="kicker" style="margin-top:20px">Sample Curriculum Snapshot</h3>
+      <div style="overflow:auto">
+        <table aria-label="Sample curriculum table">
+          <thead>
+            <tr><th>Course</th><th>Code</th><th>Credits</th><th>Type</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Intro to Programming</td><td>CS101</td><td>4</td><td>Core</td></tr>
+            <tr><td>Data Structures</td><td>CS201</td><td>4</td><td>Core</td></tr>
+            <tr><td>Discrete Mathematics</td><td>MA210</td><td>3</td><td>Core</td></tr>
+            <tr><td>Human–Computer Interaction</td><td>CS330</td><td>3</td><td>Elective</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Admissions -->
+  <section id="admissions">
+    <div class="container">
+      <div class="section-head">
+        <h2>Admissions</h2>
+        <p>How to (pretend to) apply</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <h3>1) Start your app</h3>
+          <p>Open our <a href="#" aria-disabled="true">application portal</a> and make a profile.</p>
+        </div>
+        <div class="step">
+          <h3>2) Submit docs</h3>
+          <p>Upload unofficial transcripts and the greatest personal essay never written.</p>
+        </div>
+        <div class="step">
+          <h3>3) Review & decision</h3>
+          <p>Our admissions elves evaluate your file. You get an email with confetti (maybe).</p>
+        </div>
+      </div>
+      <div class="actions" style="margin-top:18px">
+        <a class="btn primary" href="#" aria-disabled="true">Open Application</a>
+        <a class="btn ghost" href="#" aria-disabled="true">Request Info</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Campus Life -->
+  <section id="campus">
+    <div class="container">
+      <div class="section-head">
+        <h2>Campus Life</h2>
+        <p>Clubs • Housing • Dining • Sports*</p>
+      </div>
+      <div class="gallery" aria-label="Campus gallery">
+        <img src="https://picsum.photos/600/400?random=2" alt="Modern library interior" />
+        <img src="https://picsum.photos/600/400?random=3" alt="Students collaborating in a lab" />
+        <img src="https://picsum.photos/600/400?random=4" alt="Campus green with students relaxing" />
+      </div>
+    </div>
+  </section>
+
+  <!-- News & Events -->
+  <section id="news">
+    <div class="container">
+      <div class="section-head">
+        <h2>News & Events</h2>
+        <p>What’s (not actually) happening</p>
+      </div>
+      <div class="cards" role="list">
+        <article class="card" role="listitem">
+          <h3>Hackathon Winners Announced</h3>
+          <p>Team Placeholder takes first place with an app that generates… more placeholders.</p>
+          <p><a href="#" aria-disabled="true">Read more</a></p>
+        </article>
+        <article class="card" role="listitem">
+          <h3>Open Day: Virtual Tour</h3>
+          <p>Join a guided tour of our imaginary facilities and ask questions to pixel‑perfect guides.</p>
+          <p><a href="#" aria-disabled="true">Register</a></p>
+        </article>
+        <article class="card" role="listitem">
+          <h3>Guest Lecture Series</h3>
+          <p>Dr. Ipsum discusses the future of lorem in a post‑dolor world.</p>
+          <p><a href="#" aria-disabled="true">Details</a></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="foot-col">
+          <h3>Fakely University</h3>
+          <p>123 Placeholder Ave<br>Somewhere, Earth 00000</p>
+          <p><a href="#" aria-disabled="true">Directions</a> · <a href="#" aria-disabled="true">Campus Map</a></p>
+        </div>
+        <div class="foot-col">
+          <h4>Academics</h4>
+          <a href="#" aria-disabled="true">Departments</a>
+          <a href="#" aria-disabled="true">Libraries</a>
+          <a href="#" aria-disabled="true">Online Learning</a>
+          <a href="#" aria-disabled="true">Catalog</a>
+        </div>
+        <div class="foot-col">
+          <h4>Admissions</h4>
+          <a href="#" aria-disabled="true">Undergraduate</a>
+          <a href="#" aria-disabled="true">Graduate</a>
+          <a href="#" aria-disabled="true">International</a>
+          <a href="#" aria-disabled="true">Financial Aid</a>
+        </div>
+        <div class="foot-col">
+          <h4>Connect</h4>
+          <a href="#" aria-disabled="true">Contact Us</a>
+          <a href="#" aria-disabled="true">Careers</a>
+          <a href="#" aria-disabled="true">Media</a>
+          <a href="#" aria-disabled="true">Privacy</a>
+        </div>
+      </div>
+      <div class="copyright">© <span id="year">1899</span> Fakely University • This is a demo site; all links are disabled.</div>
+    </div>
+  </footer>
+
+  <span class="sr-only" id="disclaimer">*Everything here is make‑believe for demonstration/homework purposes.</span>
+
+  <script>
+    // Set current year dynamically
+    document.getElementById('year').textContent = new Date().getFullYear();
+    // Disable default action for dummy links
+    document.querySelectorAll('a[aria-disabled="true"]').forEach(a=>{
+      a.addEventListener('click', e => { e.preventDefault(); });
+      a.setAttribute('title','Demo link (disabled)');
+      a.style.cursor = 'not-allowed';
+      a.style.opacity = .8;
+    });
+  </script>
+</body>
+</html>
